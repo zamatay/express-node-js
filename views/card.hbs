@@ -1,0 +1,26 @@
+<h1>Корзина</h1>
+
+<div id="field_card">
+    {{#if card.length}}
+        <table>
+            <thead>
+            <tr>
+                <td>Название</td>
+                <td>Количество</td>
+                <td>Действие</td>
+            </tr>
+            </thead>
+            <tbody id="table_body">
+            </tbody>
+        </table>
+        <p><strong>Цена:</strong> <span class="price" id="field_price"></span></p>
+    {{else}}
+         <p>Ваша корзина пуста</p>
+    {{/if}}
+
+    <form action="/orders" method="post">
+        <button class="btn" type="submit">Сделать заказ</button>
+    </form>
+</div>
+
+
