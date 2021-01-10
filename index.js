@@ -14,6 +14,7 @@ const mongoose = require('mongoose')
 const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
 const localMiddleware = require('./middleware/variables')
+const userMiddleware = require('./middleware/user')
 
 // регистрируем хандлбар для рендеринга страниц
 const express_option = {defaultLayout: 'main', extname: 'hbs', handlebars: allowInsecurePrototypeAccess(Handlebars)}
@@ -42,6 +43,7 @@ app.use(session({
 }))
 
 app.use(localMiddleware)
+app.use(userMiddleware)
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({extended:false}))
@@ -62,6 +64,7 @@ const handleListen = ()=>{
 connectToDB = async ()=>{
     try {
         await  mongoose.connect(uriMongoDb, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
+
         app.listen(PORT, handleListen)
     }catch(e){
         console.log(e);

@@ -1,6 +1,6 @@
 const {Router} = require('express')
-const Card = require('../models/card')
 const Course = require('../models/m_course')
+const authMiddleware  = require('../middleware/auth')
 
 const  router = Router();
 
@@ -15,29 +15,33 @@ mapCartItems = (items)=>{
 }
 
 getCard = async (user)=>{
-    await user.populateCard()
-    return mapCartItems(user.cart.items);
+    console.log(user)
+    if (user){
+        await user.populateCard()
+        return mapCartItems(user.cart.items);
+    }
 }
 
-router.post('/add', async (req, res)=>{
+router.post('/add', authMiddleware, async (req, res)=>{
     const course = await Course.findById(req.body.id)
     await req.user.addToCart(course);
     res.redirect('/card')
 })
 
-router.post('/', async (req, res)=>{
+router.post('/', authMiddleware, async (req, res)=>{
+    console.log(req.user)
     const data = await getCard(req.user);
     res.json(data);
 })
 
-router.get('/', async (req, res)=>{
+router.get('/', authMiddleware, async (req, res)=>{
     // const card = Card.fetch();
-    const data = await getCard(session.user);
+    const data = await getCard(req.user);
     res.render('card', {card: data, IsCard: true})
 })
 
-router.delete('/remove/:id', async (req, res)=>{
-    await session.user.removeFromCart(req.params.id)
+router.delete('/remove/:id', authMiddleware, async (req, res)=>{
+    await req.user.removeFromCart(req.params.id)
     const data = await getCard(req.user);
     res.json(data);
 })
