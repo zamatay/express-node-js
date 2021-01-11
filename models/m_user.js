@@ -68,7 +68,6 @@ user.methods.removeFromCart = function(id){
     const idx = items.findIndex((c) => {
         return c.courseId.toString() === id
     })
-    console.log(id, idx, items)
 
     // есть такой элемент
     if (idx >= 0 && items[idx].count > 1){

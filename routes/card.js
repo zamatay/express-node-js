@@ -15,7 +15,6 @@ mapCartItems = (items)=>{
 }
 
 getCard = async (user)=>{
-    console.log(user)
     if (user){
         await user.populateCard()
         return mapCartItems(user.cart.items);
@@ -29,7 +28,6 @@ router.post('/add', authMiddleware, async (req, res)=>{
 })
 
 router.post('/', authMiddleware, async (req, res)=>{
-    console.log(req.user)
     const data = await getCard(req.user);
     res.json(data);
 })

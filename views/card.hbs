@@ -19,8 +19,11 @@
     {{/if}}
 
     <form action="/orders" method="post">
+        <input type="hidden" name="_csrf" value="{{csrf}}">
+
         <button class="btn" type="submit">Сделать заказ</button>
     </form>
 </div>
 
 
+<script src="cart.js"></script>

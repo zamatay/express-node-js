@@ -1,12 +1,7 @@
 const express = require('express')
-const path = require('path')
 const app=express()
-const homeRoutes = require('./routes/home')
-const coursesRoutes = require('./routes/courses')
-const cartRoutes = require('./routes/card')
-const addRoutes = require('./routes/add')
-const authRoutes = require('./routes/auth')
-const orderRoutes = require('./routes/orders')
+const csrf = require('csurf')
+const path = require('path')
 const expressHandleBar = require('express-handlebars')
 const Handlebars = require('handlebars')
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
@@ -15,16 +10,12 @@ const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
 const localMiddleware = require('./middleware/variables')
 const userMiddleware = require('./middleware/user')
+const route = require('./routes/web')
 
 // регистрируем хандлбар для рендеринга страниц
 const express_option = {defaultLayout: 'main', extname: 'hbs', handlebars: allowInsecurePrototypeAccess(Handlebars)}
 const eho = expressHandleBar.create(express_option)
 app.engine('hbs', eho.engine)
-// app.engine('hbs', expressHandleBar({
-//     handlebars: allowInsecurePrototypeAccess(Handlebars),
-//     defaultLayout: 'main',
-//     extname: 'hbs'
-// }))
 app.set('view engine', 'hbs')
 // указываем где хранятся наши шаблоны
 app.set('views', 'views')
@@ -41,19 +32,14 @@ app.use(session({
     saveUninitialized: false,
     store
 }))
+app.use(csrf())
 
 app.use(localMiddleware)
 app.use(userMiddleware)
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({extended:false}))
-
-app.use(homeRoutes);
-app.use('/courses', coursesRoutes);
-app.use('/card', cartRoutes)
-app.use('/orders', orderRoutes)
-app.use(addRoutes)
-app.use('/auth', authRoutes)
+route(app)
 
 const PORT = process.env.PORT || 3000;
 
