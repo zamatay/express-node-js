@@ -7,25 +7,28 @@
             </ul>
         </div>
         <div id="login" class="col s6 offset-s3">
+            {{#if errorLogin}}<p class="alert">{{errorLogin}}</p>{{/if}}
             <h1>Авторизация</h1>
             <form action="/auth/login" method="POST">
                 <input type="hidden" name="_csrf" value="{{csrf}}">
-
                 <div class="input-field">
                     <input id="email" name="email" type="email" class="validate" required>
                     <label for="email">Email</label>
-                    <span class="helper-text" data-error="Введите свой email" data-success="Правильно"></span>
+                    <span class="helper-text" data-error="Введите свой email"></span>
                 </div>
                 <div class="input-field">
                     <input id="password" type="password" name="password" class="validate" required>
                     <label for="password">Пароль</label>
                     <span class="helper-text" data-error="Необходимо указать пароль" data-success="Правильно"></span>
                 </div>
+                
+                <p><a href="/auth/resetPassword">Сбрость пароль</a></p>
 
                 <button type="submit" class="btn btn-primary">Войти</button>
             </form>
         </div>
         <div id="register" class="col s6 offset-s3">
+            {{#if errorRegister}}<p class="alert">{{errorRegister}}</p>{{/if}}
             <h1>Регистрация</h1>
             <form action="/auth/register" method="POST">
                 <input type="hidden" name="_csrf" value="{{csrf}}">
@@ -33,6 +36,7 @@
                     <input id="r-email" name="email" type="email" class="validate" required>
                     <label for="r-email">Email</label>
                     <span class="helper-text" data-error="Введите свой email" data-success="right"></span>
+                    {{#if error}}<span class="alert">{{error}}</span>{{/if}}
                 </div>
                 <div class="input-field">
                     <input id="r-name" name="name" type="text" class="validate" required>

@@ -1,5 +1,11 @@
 document.addEventListener('DOMContentLoaded', ()=>{
-    fetch('/card/', {method: 'post'})
+    let token = document.querySelector('meta[name="csrf-token"]').content
+    fetch('/card/', {
+        method: 'post',
+        headers: {
+            'X-XSRF-TOKEN': token
+        }
+    })
         .then(res=>res.json())
         .then((card)=>{
             renderCard(card)
@@ -12,8 +18,13 @@ if (field_card != null){
     list = field_card.querySelectorAll('.js-remove');
     field_card.addEventListener('click', (e)=>{
         if (e.target.classList.contains('js-remove')){
+            let token = document.querySelector('meta[name="csrf-token"]').content
             fetch(`/card/remove/${e.target.dataset.id}`, {
-                method: 'delete'
+                method: 'delete',
+                headers: {
+                    'X-XSRF-TOKEN': token
+                }
+
             }).then(res=>res.json()).then(card=>renderCard(card))
         }
     })

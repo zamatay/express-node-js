@@ -1,0 +1,13 @@
+{
+    "pass": "c8Q-Z3u-2D8-AAK",
+    "uriMongoDb": "mongodb+srv://developer:c8Q-Z3u-2D8-AAK@cluster0.fpbze.mongodb.net/shop",
+    "SESSION_SECRET": "secret",
+    "PORT": 3000,
+    "EMAIL_API_KEYS": "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",
+    "EMAIL_FROM": "Администратор системы <aisup@v-k-b.ru>",
+    "BASE_URL": "http://localhost:3000",
+    "MAIL_HOST": "v-k-b.ru",
+    "MAIL_PORT": 25,
+    "MAIL_USERNAME": "aisup@v-k-b.ru",
+    "MAIL_PASSWORD": "ri98Utg5F>"
+}
